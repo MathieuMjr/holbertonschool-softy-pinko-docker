@@ -18,5 +18,5 @@ WORKDIR /app
 # dans /app
 COPY api.py ./
 
-# run the commande echo w/ Hellow  world string as arg
+# run l'API lorsque l'image est run en conteneur
 CMD ["python3", "api.py"]

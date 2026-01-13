@@ -1,0 +1,23 @@
+# create an image from an ubuntu image
+FROM ubuntu:latest
+
+# make sure to update ubuntu
+RUN apt-get update
+RUN apt-get upgrade -y
+
+# install python et pip3
+RUN apt install -y python3 python3-pip
+
+# la ligne suivante évite l'erreur "This environment is externally managed"
+RUN rm /usr/lib/python*/EXTERNALLY-MANAGED
+RUN pip install flask
+RUN pip install flask-cors
+
+# indique le repertoire de travail du contenur
+WORKDIR /app
+# Copie le fichier api.py qui se trouve dans le repertoir courant (./)
+# dans /app
+COPY api.py ./
+
+# run l'API lorsque l'image est run en conteneur
+CMD ["python3", "api.py"]

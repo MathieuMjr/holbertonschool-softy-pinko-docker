@@ -1,0 +1,27 @@
+version: "3.9" # versio ndu format compose
+
+services: # tous les conteneurs
+  back:
+    build: ./back-end # emplacement du dockerfile
+    image: back # Le nom du service (back) devient un hostname DNS automatique dans le réseau Docker Compose
+
+  front:
+    build: ./front-end # emplacement du dockerfile
+    image: front
+    # on ne met plus de ports pour front et back. Le proxy les contactera
+    # comme définit dans /proxy/proxy.conf sur les ports indiqué.
+    # on ne pourra plus les joindre via localhost:5252 et c'est tant mieux !
+    # ils sont "protégés" derrière le proxy
+
+  proxy:
+    build: ./proxy
+    image: proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - front
+      - back
+      # depends_on indique l'ordre de démarrage des conteneurs
+      # le proxy a besoin de joindre front et back, il doit donc attendre
+      # leur démarrage
+      # front et back eux, n'ont plus besoin d'attendre d'autres conteneurs

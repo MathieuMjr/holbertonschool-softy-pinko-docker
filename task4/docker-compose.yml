@@ -1,0 +1,17 @@
+version: "3.9" # versio ndu format compose
+
+services: # tous les conteneurs
+  back:
+    build: ./back-end # emplacement du dockerfile
+    image: back # Le nom du service (back) devient un hostname DNS automatique dans le réseau Docker Compose
+    ports:
+      - "5252:5252"
+
+  front:
+    build: ./front-end # emplacement du dockerfile
+    image: front
+    ports:
+      - "9000:9000"
+    depends_on:
+      - back
+
